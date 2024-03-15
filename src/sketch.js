@@ -6,34 +6,36 @@ let rx = 5;
 let lx = -5;
 let x = 100;
 let y = 200;
-const stepSize = 3; // Size of each step
+const stepSize = 3;
 let stepsRemaining = 0;
 let stepCount = 0;
 let legsOpen = true;
 
+
 function draw() {
   background(135, 206, 250);
   drawBird(x, y);
-
-    if (stepsRemaining > 0) {
-      if (stepCount < 3) {
-
-      x += stepSize; 
-      stepsRemaining ++;
-      } else {
-        stepCount = 0;
-        stepsRemaining--;
-      }
-     
-      rx += 5;
-      lx -= 5;
+  
+  if (stepsRemaining > 0) {
+    if (stepCount < 3) {
+      x += stepSize;
+      stepCount++;
     } else {
-     
-      rx = 5;
-      lx = -5;
+      stepCount = 0;
+      stepsRemaining--;
+
+      legsOpen = !legsOpen;
+
+      if (legsOpen) {
+        rx -= 10;
+        lx += 10;
+      } else {
+        rx += 10;
+        lx -= 10;
+      }
     }
   }
-
+}
 
 function drawBird(x, y) {
   push();
@@ -46,8 +48,16 @@ function drawBird(x, y) {
   ellipse(-10, 0, 15);
   ellipse(10, 0, 15);
   fill(0);
-  ellipse(-10, 0, 7);
-  ellipse(10, 0, 7);
+
+
+  if (stepsRemaining==0) {
+    ellipse(-10, 0, 7);
+    ellipse(10, 0, 7);
+  } else {
+    // Legs are closed
+    ellipse(-10, 0, 3);
+    ellipse(10, 0, 3);
+  }
   fill(255, 255, 0);
   triangle(-5, 0, 5, 0, 0, 5);
   pop();
@@ -57,6 +67,7 @@ function drawLegs() {
   line(-5, 20, lx, 50);
   line(5, 20, rx, 50);
 }
+
 function mouseClicked() {
   stepsRemaining = 6;
   stepCount = 0;
