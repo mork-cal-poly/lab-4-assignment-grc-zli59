@@ -6,17 +6,34 @@ let rx = 5;
 let lx = -5;
 let x = 100;
 let y = 200;
-const stepSize = 50; // Size of each step
+const stepSize = 3; // Size of each step
 let stepsRemaining = 0;
-
-function setup() {
-  let myCanvas = createCanvas(400, 400);
-}
+let stepCount = 0;
+let legsOpen = true;
 
 function draw() {
   background(135, 206, 250);
   drawBird(x, y);
-}
+
+    if (stepsRemaining > 0) {
+      if (stepCount < 3) {
+
+      x += stepSize; 
+      stepsRemaining ++;
+      } else {
+        stepCount = 0;
+        stepsRemaining--;
+      }
+     
+      rx += 5;
+      lx -= 5;
+    } else {
+     
+      rx = 5;
+      lx = -5;
+    }
+  }
+
 
 function drawBird(x, y) {
   push();
@@ -40,18 +57,7 @@ function drawLegs() {
   line(-5, 20, lx, 50);
   line(5, 20, rx, 50);
 }
-
 function mouseClicked() {
-  if (stepsRemaining > 0) {
-
-    x += stepSize; 
-    stepsRemaining = 1;
-   
-    rx += 5;
-    lx -= 5;
-  } else {
-   
-    rx = 5;
-    lx = -5;
-    stepsRemaining+=3; }
+  stepsRemaining = 6;
+  stepCount = 0;
 }
