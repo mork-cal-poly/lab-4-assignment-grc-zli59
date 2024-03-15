@@ -6,17 +6,22 @@ let rx = 5;
 let lx = -5;
 let x = 100;
 let y = 200;
-const stepSize = 3;
+const initialStepSize = 3;
+let stepSize = initialStepSize;
 let stepsRemaining = 0;
 let stepCount = 0;
 let legsOpen = true;
-let rotationAngle = 0;
-const rotationSpeed = 5;
-
+let s = 1
 
 function draw() {
   background(135, 206, 250);
-  drawBird(x, y);
+  drawBird(x, y, s);
+
+  if (x > width) {
+    x = 0;
+    s+=2
+    stepSize = initialStepSize * s;
+  }
   
   if (stepsRemaining > 0) {
     if (stepCount < 3) {
@@ -37,26 +42,12 @@ function draw() {
       }
     }
   }
-  rotationAngle = map(x, width, 100, 0, PI);
-
-  if (x > width) {
-    x = 100;
-    rotationAngle = 0; 
-  }
-
-  if (rotationAngle > 0) {
-    rotationAngle -= rotationSpeed;
-  }
-  push();
-  translate(x, y);
-  rotate(radians(rotationAngle));
-  drawBird(0, 0); 
-  pop();
 }
 
-function drawBird(x, y) {
+function drawBird(x, y, s) {
   push();
   translate(x, y);
+  scale(s)
   drawLegs();
   fill(color(255, 100, 20));
   ellipse(0, 10, 30);
